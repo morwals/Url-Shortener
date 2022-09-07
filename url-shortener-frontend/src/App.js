@@ -14,8 +14,18 @@ function App() {
   const data = {
     full:url,
   }
+  function validURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
   const handleSubmit = (e)=>{
     e.preventDefault();
+    if(validURL(url)){
     axios({
       method: "POST",
         url: "http://localhost:3001/shortUrls",
@@ -30,6 +40,9 @@ function App() {
       setrefresh(1);
       console.log(res);
     })
+  }else{
+    alert("enter valid url");
+  }
     }
     
     useEffect(()=>{
