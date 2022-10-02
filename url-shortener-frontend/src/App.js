@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import './App.css';
-
+import {Button, Card, CardContent, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField} from "@mui/material"
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+ 
 function App() {
   const[url,seturl]=useState();
   const[alldata,setall]=useState([]);
@@ -52,21 +54,39 @@ function App() {
         console.log(response.data);
       });
     },[refresh]);
-
+    
   return (
-    <div className="App">
+    <div className="App page">
+        <h1>URL Shortener</h1>
+        <Card sx={{ width:"30%",margin:"auto" }}>
+        <CardContent>
+
         <form onSubmit={handleSubmit}>
-          <input type="text" className="form-control" onChange={handleChange}></input>
-          <button type='submit'>shortUrl</button>
+          <div className='form'>
+        <TextField  label="Enter Link" variant="outlined" onChange={handleChange}/>
+          <Button variant='contained' type='submit' sx={{my:1}}>shortUrl</Button>
+          </div>
         </form>
-        <div className="table">
+        <div className='links'>
+
+          <List>
         {
           alldata.map((d,i)=>
-            <div key={i}>
-                <a href={d.full}>http:localhost:3001/{d.short}</a>
-            </div>
+          <ListItem disablePadding key={i}>
+            <a href={d.full} target="_blank">            
+              <ListItemButton>
+              <ListItemIcon>
+                <InsertLinkIcon />
+              </ListItemIcon>
+              <ListItemText primary={`http:localhost:3001/${d.short}`} />
+            </ListItemButton>
+            </a>
+          </ListItem>
       )}
-        </div>
+      </List>
+      </div>
+      </CardContent>
+      </Card>
     </div>
   );
 }
